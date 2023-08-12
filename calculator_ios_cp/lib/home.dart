@@ -1,4 +1,6 @@
+import 'package:calculator_ios_cp/screen_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'widgets/custom_button.dart';
 
 class Home extends StatefulWidget {
@@ -10,9 +12,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<CustomButton> buttons = [
-    const CustomButton(buttonValue: 'AC'),
-    const CustomButton(buttonValue: '+-'),
-    const CustomButton(buttonValue: '%'),
+    const CustomButton(buttonValue: 'AC',bgColor: Colors.grey,txtColor: Colors.black,),
+    const CustomButton(buttonValue: '+-',bgColor: Colors.grey,txtColor: Colors.black,),
+    const CustomButton(buttonValue: '%',bgColor: Colors.grey,txtColor: Colors.black,),
     const CustomButton(buttonValue: '/',bgColor: Colors.orange,),
     const CustomButton(buttonValue: '7'),
     const CustomButton(buttonValue: '8'),
@@ -31,14 +33,21 @@ class _HomeState extends State<Home> {
     const CustomButton(buttonValue: '=',bgColor: Colors.orange,),
   ];
 
+  
   @override
   Widget build(BuildContext context) {
+    String currentValue=Provider.of<ScreenProvider>(context).currentValue;
+    double fontSize=calculateLength(currentValue);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           
-          Text('witam'),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal:20.0),
+            child: Text(currentValue,style: TextStyle(fontSize: fontSize),),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: GridView.count(
@@ -53,5 +62,21 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+
+  double calculateLength(String text){
+    if(text.length>6){
+      return 45;
+    }
+    else if(text.length>7){
+      return 40;
+    }
+    else if(text.length>8){
+      return 40;
+    }
+    else{
+      return 50;
+    }
   }
 }
