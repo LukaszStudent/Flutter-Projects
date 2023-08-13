@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
     else if(text.length==10){
       return 65;
     }
-    else if(text.length==11){
+    else if(text.length>=11){
       return 60;
     }
     else{
