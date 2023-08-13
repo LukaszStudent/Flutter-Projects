@@ -66,17 +66,20 @@ class _HomeState extends State<Home> {
 
 
   double calculateLength(String text){
-    if(text.length>6){
-      return 45;
+    if(text.length==7){
+      return 90;
     }
-    else if(text.length>7){
-      return 40;
+    else if(text.length==9){
+      return 75;
     }
-    else if(text.length>8){
-      return 40;
+    else if(text.length==10){
+      return 65;
+    }
+    else if(text.length==11){
+      return 60;
     }
     else{
-      return 50;
+      return 95;
     }
   }
 }
