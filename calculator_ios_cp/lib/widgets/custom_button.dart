@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../screen_provider.dart';
 
 class CustomButton extends StatelessWidget {
@@ -22,21 +21,19 @@ class CustomButton extends StatelessWidget {
         if (bgColor == const Color.fromRGBO(66, 66, 66, 1)) {
           Provider.of<ScreenProvider>(context, listen: false)
               .changeValueOfScreen(buttonValue);
+        } else if (buttonValue == 'AC') {
+          Provider.of<ScreenProvider>(context, listen: false)
+              .resetValueOfScreen();
+        } else if (buttonValue == '+-') {
+          Provider.of<ScreenProvider>(context, listen: false)
+              .changeCharOfValue();
+        } else if (buttonValue == '%') {
+          Provider.of<ScreenProvider>(context, listen: false).percentOfValue();
+        } else if (buttonValue == '=') {
+          Provider.of<ScreenProvider>(context, listen: false).mathResult();
         } else {
           Provider.of<ScreenProvider>(context, listen: false)
               .mathOperation(buttonValue);
-        }
-        if (buttonValue == 'AC') {
-          Provider.of<ScreenProvider>(context, listen: false)
-              .resetValueOfScreen();
-        }
-        if(buttonValue=='+-'){
-          Provider.of<ScreenProvider>(context, listen: false)
-              .changeCharOfValue();
-        }
-        if(buttonValue=='%'){
-          Provider.of<ScreenProvider>(context, listen: false)
-              .percentOfValue();
         }
       },
       style: ElevatedButton.styleFrom(
