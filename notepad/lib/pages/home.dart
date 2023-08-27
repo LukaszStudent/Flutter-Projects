@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:notepad/widgets/note_widget.dart';
 
 import '../models/note_model.dart';
@@ -24,27 +25,60 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-            SizedBox(height: 20,),
-            Text(
-              'Your notes. All here',style: TextStyle(fontSize: 26),
+            const SizedBox(
+              height: 20,
             ),
-            SizedBox(height: 15,),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: notes.length,
-                itemBuilder: (context, index) {
-                  return MyNote(
-                      title: notes[index].title,
-                      description: notes[index].description);
-                })
+            const Text(
+              'Your notes. All here',
+              style: TextStyle(fontSize: 26),
+            ),
+            Text('Number of notes: ${notes.length}',
+                style: const TextStyle(fontSize: 22)),
+            const SizedBox(
+              height: 15,
+            ),
+            allnotes(),
           ],
         ),
       ),
     );
   }
 
+  ListView allnotes() {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: notes.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Slidable(
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    notes.removeAt(index);
+                    setState(() {});
+                  },
+                  backgroundColor: const Color(0xFFFE4A49),
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                  label: 'Delete',
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ],
+            ),
+            child: MyNote(
+                title: notes[index].title,
+                description: notes[index].description),
+          ),
+        );
+      },
+    );
+  }
+
   AppBar appBar() {
+    bool noTitle = false;
     return AppBar(
       title: const Text('NotePad'),
       centerTitle: true,
@@ -59,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('New Note'),
-                    content: Container(
+                    content: SizedBox(
                       height: 200,
                       child: Column(
                         children: [
@@ -67,9 +101,13 @@ class _HomePageState extends State<HomePage> {
                           const Text('Add title'),
                           TextField(
                             controller: _titleController,
+                            decoration: InputDecoration(
+                                helperText: noTitle ? 'Fill in a title' : '',
+                                helperStyle:
+                                    TextStyle(decorationColor: Colors.red)),
                           ),
                           const SizedBox(
-                            height: 50,
+                            height: 28,
                           ),
                           const Text('Add description'),
                           TextField(
@@ -82,6 +120,8 @@ class _HomePageState extends State<HomePage> {
                       ElevatedButton.icon(
                           onPressed: () {
                             Navigator.pop(context);
+                            _titleController.clear();
+                            _descriptionController.clear();
                           },
                           icon: const Icon(Icons.cancel),
                           label: const Text('CANCEL'),
@@ -89,10 +129,16 @@ class _HomePageState extends State<HomePage> {
                               backgroundColor: Colors.red)),
                       ElevatedButton.icon(
                         onPressed: () {
-                          notes.add(Note(
-                              title: _titleController.text,
-                              description: _descriptionController.text));
-                          Navigator.pop(context);
+                          if (_titleController.text.trim().isNotEmpty) {
+                            notes.add(Note(
+                                title: _titleController.text,
+                                description: _descriptionController.text));
+                            Navigator.pop(context);
+                            _titleController.clear();
+                            _descriptionController.clear();
+                          } else {
+                            noTitle = true;
+                          }
                           setState(() {});
                         },
                         icon: const Icon(Icons.verified),
