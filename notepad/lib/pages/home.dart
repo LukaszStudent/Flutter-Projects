@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0.0),
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Slidable(
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                   return AlertDialog(
                     title: const Text('New Note'),
                     content: SizedBox(
-                      height: 200,
+                      height: 220,
                       child: Column(
                         children: [
                           const Divider(color: Colors.black, thickness: 1),
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                           icon: const Icon(Icons.cancel),
                           label: const Text('CANCEL'),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red)),
+                              backgroundColor: Colors.red,foregroundColor: Colors.white)),
                       ElevatedButton.icon(
                         onPressed: () {
                           if (_titleController.text.trim().isNotEmpty) {
@@ -145,14 +145,14 @@ class _HomePageState extends State<HomePage> {
                         icon: const Icon(Icons.verified),
                         label: const Text('OK'),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green),
+                            backgroundColor: Colors.green,foregroundColor: Colors.white),
                       ),
                     ],
                   );
                 });
           },
           icon: const Icon(Icons.add),
-         style: IconButton.styleFrom(backgroundColor: Colors.grey[100]),
+          style: IconButton.styleFrom(backgroundColor: Colors.grey[100]),
         )
       ],
     );
