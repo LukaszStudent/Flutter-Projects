@@ -43,10 +43,11 @@ class _NotePageState extends State<NotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
           leading: IconButton(onPressed: (){
             Navigator.pop(context,[_titleController.text,_descriptionController.text]);
-          }, icon: Icon(Icons.arrow_back)),
+          }, icon: const Icon(Icons.arrow_back)),
           title: const Text('Note Details'),
           centerTitle: true,
           foregroundColor: Colors.black,
