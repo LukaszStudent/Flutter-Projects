@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
               height: 20,
             ),
             const Text(
-              'Your notes. All here',
+              'All your notes in one place',
               style: TextStyle(fontSize: 26),
             ),
             Text('Number of notes: ${notes.length}',
@@ -50,7 +51,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: notes.length,
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 0.0),
           child: Slidable(
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
@@ -151,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                 });
           },
           icon: const Icon(Icons.add),
-          style: IconButton.styleFrom(backgroundColor: Colors.grey),
+         style: IconButton.styleFrom(backgroundColor: Colors.grey[100]),
         )
       ],
     );

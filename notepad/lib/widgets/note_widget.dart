@@ -13,43 +13,55 @@ class MyNote extends StatefulWidget {
 class _MyNoteState extends State<MyNote> {
   bool isFavourite = false;
   DateTime now = DateTime.now();
-  dynamic result;
+  String? changedTitle;
+  String? changedDescription;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () async {
-        print('${now.year}-${now.month}-${now.day}');
-        result= await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NotePage(
-              title: widget.title,
-              description: widget.description,
+    return Card(
+      elevation: 5,
+      shadowColor: Colors.blue[300],
+      child: ListTile(
+        onTap: () async {
+          print('${now.year}-${now.month}-${now.day}');
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NotePage(
+                title: (changedTitle ?? widget.title),
+                description: (changedDescription ?? widget.description),
+              ),
             ),
-          ),
-        );
-        print(result[0]);
-      },
-      trailing: IconButton(
-          onPressed: () {
-            isFavourite = !isFavourite;
-            setState(() {});
-          },
-          icon: Icon(
-            Icons.star,
-            color: isFavourite ? Colors.amber : Colors.white,
-          )),
-      title: Text(
-        widget.title,//!=result[0]?result[0]:widget.title,
-        maxLines: 1,
+          );
+          if (result != null) {
+            setState(() {
+              changedTitle = result[0];
+              changedDescription = result[1];
+            });
+          }
+        },
+        trailing: IconButton(
+            onPressed: () {
+              isFavourite = !isFavourite;
+              setState(() {});
+            },
+            icon: Icon(
+              Icons.star,
+              color: isFavourite ? Colors.amber : Colors.white,
+            )),
+        title: Text(
+          widget.title != (changedTitle ?? widget.title)
+              ? (changedTitle ?? widget.title)
+              : widget.title,
+          maxLines: 1,
+        ),
+        subtitle: Text(
+          widget.description != (changedDescription ?? widget.description)
+              ? (changedDescription ?? widget.description)
+              : widget.description,
+          maxLines: 1,
+          softWrap: true,
+        ),
       ),
-      subtitle: Text(
-        widget.description,//!=result[1]?result[1]:widget.description,
-        maxLines: 1,
-        softWrap: true,
-      ),
-      tileColor: Colors.grey,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
     );
   }
 }
