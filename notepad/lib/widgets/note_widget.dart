@@ -17,50 +17,46 @@ class _MyNoteState extends State<MyNote> {
   String? changedDescription;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shadowColor: Colors.blue[300],
-      child: ListTile(
-        onTap: () async {
-          print('${now.year}-${now.month}-${now.day}');
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NotePage(
-                title: (changedTitle ?? widget.title),
-                description: (changedDescription ?? widget.description),
-              ),
+    return ListTile(
+      onTap: () async {
+        print('${now.year}-${now.month}-${now.day}');
+        final result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NotePage(
+              title: (changedTitle ?? widget.title),
+              description: (changedDescription ?? widget.description),
             ),
-          );
-          if (result != null) {
-            setState(() {
-              changedTitle = result[0];
-              changedDescription = result[1];
-            });
-          }
-        },
-        trailing: IconButton(
-            onPressed: () {
-              isFavourite = !isFavourite;
-              setState(() {});
-            },
-            icon: Icon(
-              Icons.star,
-              color: isFavourite ? Colors.amber : Colors.white,
-            )),
-        title: Text(
-          widget.title != (changedTitle ?? widget.title)
-              ? (changedTitle ?? widget.title)
-              : widget.title,
-          maxLines: 1,
-        ),
-        subtitle: Text(
-          widget.description != (changedDescription ?? widget.description)
-              ? (changedDescription ?? widget.description)
-              : widget.description,
-          maxLines: 1,
-          softWrap: true,
-        ),
+          ),
+        );
+        if (result != null) {
+          setState(() {
+            changedTitle = result[0];
+            changedDescription = result[1];
+          });
+        }
+      },
+      trailing: IconButton(
+          onPressed: () {
+            isFavourite = !isFavourite;
+            setState(() {});
+          },
+          icon: Icon(
+            Icons.star,
+            color: isFavourite ? Colors.amber : Colors.white,
+          )),
+      title: Text(
+        widget.title != (changedTitle ?? widget.title)
+            ? (changedTitle ?? widget.title)
+            : widget.title,
+        maxLines: 1,
+      ),
+      subtitle: Text(
+        widget.description != (changedDescription ?? widget.description)
+            ? (changedDescription ?? widget.description)
+            : widget.description,
+        maxLines: 1,
+        softWrap: true,
       ),
     );
   }
