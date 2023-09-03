@@ -1,77 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tik_tak_toe/service/gamelogic.dart';
 
 class MyButton extends StatefulWidget {
   final Function() onTap;
   final bool currentPlayer;
   final int index;
+  final GameLogic gameLogic;
   const MyButton(
       {super.key,
       required this.onTap,
       required this.currentPlayer,
-      required this.index});
+      required this.index,
+      required this.gameLogic});
 
   @override
   State<MyButton> createState() => _MyButtonState();
 }
 
 class _MyButtonState extends State<MyButton> {
-  bool isEnd = false;
-  List<int> indexesPlayerX = [];
-  List<int> indexesPlayerO = [];
-  bool endGame(List coordinates) {
-    if (coordinates.contains(0) &&
-        coordinates.contains(1) &&
-        coordinates.contains(2)) {
-      //row 1
-      return true;
-    } else if (coordinates.contains(3) &&
-        coordinates.contains(4) &&
-        coordinates.contains(5)) {
-      //row2
-      return true;
-    } else if (coordinates.contains(6) &&
-        coordinates.contains(7) &&
-        coordinates.contains(8)) {
-      //row3
-      return true;
-    } else if (coordinates.contains(0) &&
-        coordinates.contains(3) &&
-        coordinates.contains(6)) {
-      //col1
-      return true;
-    } else if (coordinates.contains(1) &&
-        coordinates.contains(4) &&
-        coordinates.contains(7)) {
-      //col2
-      return true;
-    } else if (coordinates.contains(2) &&
-        coordinates.contains(5) &&
-        coordinates.contains(8)) {
-      //col3
-      return true;
-    } else if (coordinates.contains(0) &&
-        coordinates.contains(4) &&
-        coordinates.contains(8)) {
-      //cross1
-      return true;
-    } else if (coordinates.contains(2) &&
-        coordinates.contains(4) &&
-        coordinates.contains(6)) {
-      //cross2
-      return true;
-    }
-    return false;
-  }
-
   dynamic icon = const Text('');
   void changePlayer() {
     if (widget.currentPlayer) {
       setState(() {
-        icon = const Icon(Icons.ac_unit_outlined);
+        icon = const FaIcon(
+          FontAwesomeIcons.x,
+          color: Colors.black,
+        );
       });
-    } else {
+    } else if (!widget.currentPlayer) {
       setState(() {
-        icon = const Icon(Icons.circle_outlined);
+        icon = const Icon(
+          Icons.circle_outlined,
+          color: Colors.black,
+        );
       });
     }
   }
@@ -80,20 +42,40 @@ class _MyButtonState extends State<MyButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        if (!isEnd) {
+        if (icon is Text && !widget.gameLogic.isEnd) {
           widget.onTap();
-          if (widget.currentPlayer) {
-            indexesPlayerX.add(widget.index);
-            print('Player X = ${indexesPlayerX.length}');
-            isEnd = endGame(indexesPlayerX);
-          } else {
-            indexesPlayerO.add(widget.index);
-            print('Player 0 = ${indexesPlayerO}');
-            isEnd = endGame(indexesPlayerO);
-          }
           changePlayer();
-        } else {
-          print('koniec');
+          if (widget.currentPlayer) {
+            widget.gameLogic.indexesPlayerX.add(widget.index);
+            widget.gameLogic.isEnd =
+                widget.gameLogic.endGame(widget.gameLogic.indexesPlayerX);
+          } else {
+            widget.gameLogic.indexesPlayerO.add(widget.index);
+            widget.gameLogic.isEnd =
+                widget.gameLogic.endGame(widget.gameLogic.indexesPlayerO);
+          }
+        }
+
+        if (widget.gameLogic.isEnd) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Center(
+                  child: Column(
+                children: [
+                  RotatedBox(
+                    quarterTurns: 2,
+                    child: widget.currentPlayer
+                        ? Text('Player X win')
+                        : Text('Player O defeat'),
+                  ),
+                  !widget.currentPlayer
+                      ? Text('Player O defeat')
+                      : Text('Player X win'),
+                ],
+              )),
+            ),
+          );
         }
       },
       child: icon,
