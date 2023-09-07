@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:hive/hive.dart';
 import 'package:notepad/widgets/note_widget.dart';
 
 import '../models/note_model.dart';
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<Note> notes = [];
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _mybox = Hive.box('myNotes');
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   ListView allnotes() {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: notes.length,
+      itemCount: _mybox.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SlidableAction(
                   onPressed: (context) {
-                    notes.removeAt(index);
+                    _mybox.delete(index);
                     setState(() {});
                   },
                   backgroundColor: const Color(0xFFFE4A49),
@@ -70,12 +72,15 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             child: MyNote(
-                title: notes[index].title,
-                description: notes[index].description),
+                title: _mybox.get(index)[0], description: _mybox.get(index)[1]),
           ),
         );
       },
     );
+  }
+
+  void addNote(String title, String description) {
+    _mybox.add([title, description]);
   }
 
   AppBar appBar() {
@@ -127,7 +132,8 @@ class _HomePageState extends State<HomePage> {
                           icon: const Icon(Icons.cancel),
                           label: const Text('CANCEL'),
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,foregroundColor: Colors.white)),
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white)),
                       ElevatedButton.icon(
                         onPressed: () {
                           if (_titleController.text.trim().isNotEmpty) {
@@ -135,17 +141,22 @@ class _HomePageState extends State<HomePage> {
                                 title: _titleController.text,
                                 description: _descriptionController.text));
                             Navigator.pop(context);
+                            addNote(_titleController.text,
+                                _descriptionController.text);
+
                             _titleController.clear();
                             _descriptionController.clear();
                           } else {
                             noTitle = true;
                           }
+
                           setState(() {});
                         },
                         icon: const Icon(Icons.verified),
                         label: const Text('OK'),
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,foregroundColor: Colors.white),
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white),
                       ),
                     ],
                   );

@@ -18,6 +18,7 @@ class _MyNoteState extends State<MyNote> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: Colors.grey[400],
       onTap: () async {
         print('${now.year}-${now.month}-${now.day}');
         final result = await Navigator.push(
