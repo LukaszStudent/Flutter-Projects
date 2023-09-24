@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
               'All your notes in one place',
               style: TextStyle(fontSize: 26),
             ),
-            Text('Number of notes: ${notes.length}',
+            Text('Number of notes: ${_mybox.length}',
                 style: const TextStyle(fontSize: 22)),
             const SizedBox(
               height: 15,
