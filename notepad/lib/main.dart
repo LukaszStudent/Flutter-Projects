@@ -4,7 +4,7 @@ import 'package:notepad/pages/home.dart';
 
 void main() async{
   await Hive.initFlutter();
-  var box= await Hive.openBox('myNotes');
+  var box= await Hive.openBox('myNote');
   runApp(const MyApp());
 }
 

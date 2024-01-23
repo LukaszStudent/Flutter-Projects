@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<Note> notes = [];
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _mybox = Hive.box('myNotes');
+  final _mybox = Hive.box('myNote');
 
   @override
   Widget build(BuildContext context) {
