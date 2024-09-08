@@ -1,4 +1,4 @@
-#Flutter Projects
+# Flutter Projects
 
 This repository is for recruitment purposes and contains various projects, ranging from easy to more complex ones.
 
