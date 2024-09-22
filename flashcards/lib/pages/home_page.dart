@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final collectionsName = [];
-  final languagesCode = languages.keys.toList(); // Lista kluczy
   late List<String> languagesName;
   late dynamic filteredLanguages;
   final _collectionController = TextEditingController();
@@ -33,6 +32,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     languagesName = languages.values.toList();
     filteredLanguages = languages.entries.toList();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _collectionController.dispose();
+    _searchLanguageController.dispose();
   }
 
   @override
@@ -57,18 +64,22 @@ class _HomePageState extends State<HomePage> {
                       Icons.delete,
                     ),
                   ),
-                  onDismissed: (direction) {
+                  onDismissed: (direction) async {
                     setState(() {
                       collectionsName.removeAt(index);
                     });
+                    await Hive.deleteBoxFromDisk(
+                        _collectionController.text.trim());
                   },
-                  child: ListTile(
-                    title: Text(collectionsName[index]),
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsPage(
-                          collectionName: collectionsName[index],
+                  child: Card(
+                    child: ListTile(
+                      title: Text(collectionsName[index]),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsPage(
+                            collectionName: collectionsName[index],
+                          ),
                         ),
                       ),
                     ),
@@ -78,9 +89,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
+            // barrierDismissible: false,
             context: context,
             builder: (context) {
-              return StatefulBuilder(builder: (context, setState) {
+              _collectionController.clear();
+              _searchLanguageController.clear();
+              filteredLanguages = languages.entries.toList();
+              return StatefulBuilder(builder: (context, setStateDialog) {
                 return AlertDialog(
                   title: const Text('New flashcards'),
                   content: SizedBox(
@@ -100,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.only(bottom: 8.0, top: 8.0),
                           child: TextFormField(
                             controller: _searchLanguageController,
-                            onChanged: (value) => setState(() {
+                            onChanged: (value) => setStateDialog(() {
                               searchLanguage(value);
                             }),
                             decoration: const InputDecoration(
@@ -127,13 +142,6 @@ class _HomePageState extends State<HomePage> {
                                             filteredLanguages[index].value)),
                                   ],
                                 ),
-                                // onTap: () => setState(
-                                //   () {
-                                //     collectionsName.add(languagesName[index]);
-                                //     // languagesName.removeAt(index);
-                                //     // Navigator.pop(context);
-                                //   },
-                                // ),
                               );
                             },
                           ),
@@ -150,12 +158,12 @@ class _HomePageState extends State<HomePage> {
                       style: TextButton.styleFrom(foregroundColor: Colors.red),
                     ),
                     TextButton.icon(
-                      onPressed: () {
+                      onPressed: () async {
                         setState(() {
                           collectionsName
                               .add(_collectionController.text.trim());
                         });
-                        Hive.openBox(_collectionController.text.trim());
+                        await Hive.openBox(_collectionController.text.trim());
                         Navigator.pop(context);
                       },
                       label: const Text("Add"),
