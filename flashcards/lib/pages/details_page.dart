@@ -1,3 +1,4 @@
+import 'package:flashcards/pages/play_words.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -86,10 +87,9 @@ class _DetailsPageState extends State<DetailsPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: () {
-              addNewWordToCollection(context);
-            },
-            heroTag: "addWordHeroTag",
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const PlayWords())),
+            heroTag: "playWordsHeroTag",
             child: const Icon(Icons.play_circle_outline),
           ),
           const SizedBox(
@@ -99,6 +99,7 @@ class _DetailsPageState extends State<DetailsPage> {
             onPressed: () {
               addNewWordToCollection(context);
             },
+            heroTag: "addWordHeroTag",
             child: const Icon(Icons.add),
           ),
         ],
