@@ -13,6 +13,8 @@ class _DetailsPageState extends State<DetailsPage> {
   final List<MapEntry> words = [];
   final _oryginalWordController = TextEditingController();
   final _translatedWordController = TextEditingController();
+  final _editOryginalWordController = TextEditingController();
+  final _editTransletedWordController = TextEditingController();
 
   @override
   void initState() {
@@ -71,31 +73,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       subtitle: Text(wordPair.value),
                       trailing: IconButton(
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text("Edit word"),
-                                  actionsAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  actions: [
-                                    TextButton.icon(
-                                      onPressed: () => Navigator.pop(context),
-                                      label: const Text("Cancel"),
-                                      icon: const Icon(Icons.cancel_outlined),
-                                      style: TextButton.styleFrom(
-                                          foregroundColor: Colors.red),
-                                    ),
-                                    TextButton.icon(
-                                      onPressed: () => Navigator.pop(context),
-                                      label: const Text("Save"),
-                                      icon: const Icon(Icons.cancel_outlined),
-                                      style: TextButton.styleFrom(
-                                          foregroundColor: Colors.green),
-                                    ),
-                                  ],
-                                );
-                              });
+                          editWord(context, wordPair);
                         },
                         icon: const Icon(Icons.edit),
                       ),
@@ -104,13 +82,81 @@ class _DetailsPageState extends State<DetailsPage> {
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          addNewWordToCollection(context);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              addNewWordToCollection(context);
+            },
+            heroTag: "addWordHeroTag",
+            child: const Icon(Icons.play_circle_outline),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              addNewWordToCollection(context);
+            },
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<dynamic> editWord(
+      BuildContext context, MapEntry<dynamic, dynamic> wordPair) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          _editOryginalWordController.clear();
+          _editTransletedWordController.clear();
+          return AlertDialog(
+            title: const Text("Edit word"),
+            content: IntrinsicHeight(
+              child: Column(
+                children: [
+                  TextFormField(
+                    // controller: _editTransletedWordController,
+                    initialValue: wordPair.key,
+                    decoration: const InputDecoration(
+                        labelText: "Translated", border: OutlineInputBorder()),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    // controller: _editOryginalWordController,
+                    initialValue: wordPair.value,
+                    decoration: const InputDecoration(
+                      labelText: "Oryginal",
+                      border: OutlineInputBorder(),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: [
+              TextButton.icon(
+                onPressed: () => Navigator.pop(context),
+                label: const Text("Cancel"),
+                icon: const Icon(Icons.cancel_outlined),
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                label: const Text("Save"),
+                icon: const Icon(Icons.cancel_outlined),
+                style: TextButton.styleFrom(foregroundColor: Colors.green),
+              ),
+            ],
+          );
+        });
   }
 
   Future<dynamic> addNewWordToCollection(BuildContext context) {
