@@ -11,7 +11,7 @@ Enter collection name, select language (optional) and press "Add" to save new co
 
 Home page with some collections.
 Tap on card to see words in collection.
-![Home page with collections](screens/all_collections_B.jpeg)
+![Home page with collections](screens/all_collections.png)
 
 Swipe left or right for remove collection.
 ![Remove collection](screens/remove_collection.png)
