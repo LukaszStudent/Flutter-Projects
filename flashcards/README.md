@@ -3,8 +3,14 @@
 Language leraning app
 
 ## Current state of project
-| Home Page | Add new collection | Home page with collections | Remove collection| Empty collection | Add new word to collection | Add new word to collection |
-| ![Home page](screens/home_page.png) | ![Add new collection](screens/new_flashcard.png) | ![Home page with collections](screens/all_collections.png) | ![Remove collection](screens/remove_collection.png) | ![Empty collection](screens/empty_collection.png) | ![Add new word to collection](screens/new_word.png) | ![Add new word to collection](screens/all_words.png) | 
+
+| Obrazek 1 | Obrazek 2 |
+| --------- | --------- |
+| ![Alt text 1](screens/home_page.png) | ![Alt text 2](screens/new_flashcard.png) |
+
+
+<!-- | Home Page | Add new collection | Home page with collections | Remove collection| Empty collection | Add new word to collection | Add new word to collection |
+| ![Home page](screens/home_page.png) | ![Add new collection](screens/new_flashcard.png) | ![Home page with collections](screens/all_collections.png) | ![Remove collection](screens/remove_collection.png) | ![Empty collection](screens/empty_collection.png) | ![Add new word to collection](screens/new_word.png) | ![Add new word to collection](screens/all_words.png) |  -->
 
 <!-- First page You see after launch app. Click on word icon to add new collection.
 ![Home page](screens/home_page.png)
