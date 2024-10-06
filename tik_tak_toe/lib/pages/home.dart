@@ -33,9 +33,30 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         foregroundColor: Colors.black,
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: AppBar(
+          backgroundColor: Colors.white,
+          title: const RotatedBox(
+            quarterTurns: 2,
+            child: Text(
+              'TikTakToe',
+            ),
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          isPlayerX
+              ? const Text(
+                  'Player X turn',
+                  style: TextStyle(fontSize: 18),
+                )
+              : const Text(
+                  'Player O turn',
+                  style: TextStyle(fontSize: 18),
+                ),
           GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -57,13 +78,19 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           isPlayerX
-              ? const Text(
-                  'Player X turn',
-                  style: TextStyle(fontSize: 18),
+              ? const RotatedBox(
+                  quarterTurns: 2,
+                  child: Text(
+                    'Player X turn',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 )
-              : const Text(
-                  'Player O turn',
-                  style: TextStyle(fontSize: 18),
+              : const RotatedBox(
+                  quarterTurns: 2,
+                  child: Text(
+                    'Player O turn',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
         ],
       ),
