@@ -1,16 +1,9 @@
-# tik_tak_toe
+# Tik Tak Toe
 
-A new Flutter project.
+Mobile version of [tik tak toe](https://www.google.com/search?client=safari&rls=en&q=tik+tak+toe+game+wikipedia&ie=UTF-8&oe=UTF-8) game.
 
-## Getting Started
+## Current state of project
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Empty board | First move | Last move | Result info |
+| ----------- | ---------- | --------- | ----------- |
+|![Empty board](screens/first_page.png)|![First move](screens/first_move.png)|![Last move](screens/full_board.png)|![Result info](screens/result_page.png)|
